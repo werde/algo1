@@ -20,17 +20,15 @@ int main()
     int size = 0;
     size = readInput(f, &p);
 
-    int i;
-
-
-    //merge(p, p+3, size/2);
     recursive(p, size);
     /*
+    int i;
     for (i = 0; i < size; i++)
     {
         printf("%d\n", p[i]);
     }
-*/
+    */
+
     printf("Number of inversions - %llu\n", inversions);
     return 0;
 }
@@ -96,44 +94,34 @@ void merge(int* f, int* s, int size1, int size2)
 
     for (i = 0; i < size; i++)
     {
-        //printf("*a - %d; *b - %d\n", *a, *b);
-
         if (*a < *b)
         {
             merged[i] = *a;
             a++;
         } else
         {
-            inversions += (f + size1 - a);    /*  calculate inversion */
+            inversions += (f + size1 - a);    /*  calculate inversions */
 
             merged[i] = *b;
             b++;
         }
 
+        /* if at end of the first array */
         if (a >= f + size1)
         {
-            //printf("a\n");
             memcpy(merged + i + 1, b, (s + size2 - b)*sizeof(int));
             break;
         }
 
+        /* if at end of the second array */
         if (b >= s + size2)
         {
-            //printf("b >= s + size; %d %d \n\n", (f + size - a), i);
             memcpy(merged + i + 1, a, (f + size1 - a)*sizeof(int));
             break;
         }
     }
 
+    /* cope merged array over existing */
     memcpy(f, merged, size*sizeof(int));
-    /*
-    for (i = 0; i < size*2; i++)
-    {
-        printf("%d\n", merged[i]);
-    }
-    for (i = 0; i < size*2; i++)
-    {
-        printf("%d\n", f[i]);
-    }
-    */
+    free(merged);
 }
