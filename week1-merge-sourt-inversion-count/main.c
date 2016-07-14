@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <memory.h>
 
-#define INPUT_FILE "test.txt"
+#define INPUT_FILE "IntegerArray.txt"
 #define INPUT_SIZE 100000
 
 int readInput(FILE* f, int** pp);
 void recursive(int* p, int size);
 void merge(int* f, int* s, int size1, int size2);
+
+unsigned long long int inversions = 0;
 
 int main()
 {
@@ -23,10 +25,13 @@ int main()
 
     //merge(p, p+3, size/2);
     recursive(p, size);
+    /*
     for (i = 0; i < size; i++)
     {
         printf("%d\n", p[i]);
     }
+*/
+    printf("Number of inversions - %llu\n", inversions);
     return 0;
 }
 
@@ -73,11 +78,11 @@ void recursive(int* p, int size)
         offset2 = 1 + size/2;
     }
 
-    printf("offset %d %d %d \n", size, offset1, offset2);
+    //printf("offset %d %d %d \n", size, offset1, offset2);
 
     recursive(p, offset1);
-    recursive(p + offset1, offset1);
-    merge(p, p+offset1, offset1, offset1);
+    recursive(p + offset1, offset2);
+    merge(p, p+offset1, offset1, offset2);
 }
 
 //pohoje na pravdu
@@ -99,20 +104,22 @@ void merge(int* f, int* s, int size1, int size2)
             a++;
         } else
         {
+            inversions += (f + size1 - a);    /*  calculate inversion */
+
             merged[i] = *b;
             b++;
         }
 
         if (a >= f + size1)
         {
-            printf("a\n");
+            //printf("a\n");
             memcpy(merged + i + 1, b, (s + size2 - b)*sizeof(int));
             break;
         }
 
         if (b >= s + size2)
         {
-            printf("b >= s + size; %d %d \n\n", (f + size - a), i);
+            //printf("b >= s + size; %d %d \n\n", (f + size - a), i);
             memcpy(merged + i + 1, a, (f + size1 - a)*sizeof(int));
             break;
         }
