@@ -81,7 +81,7 @@ int* median(int *fp, int *sp, int *tp)
     if (f == t)
         return fp;
 
-        return sp;
+    return sp;
 }
 
 /* Pivot is always first element (array[0], *array) */
