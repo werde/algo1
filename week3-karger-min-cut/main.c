@@ -15,7 +15,6 @@ typedef struct
 typedef struct
 {
     Edge *edges;
-    int *vertices;
     int n;
     int m;
 } Graph;
@@ -52,6 +51,7 @@ int main()
 
     int loops = original.n*original.n;
     int minCut = 99;
+
     for (i = 0; i < loops; i++)
     {
         int c = 13;
@@ -59,7 +59,7 @@ int main()
         if (c < minCut)
             minCut = c;
     }
-    printf("[!] Minimal cut %d \n", minCut);
+    printf("[!] Minimal cut - %d \n", minCut);
 
     return 0;
 }
@@ -82,8 +82,7 @@ int cut()
 int merge()
 {
     int random, i;
-    rand();
-
+    i = 0;
     random = (int) (g.m - 1)*((double)rand()/(double)RAND_MAX);
 
     char first = edges[random].f;
@@ -107,6 +106,7 @@ void deleteSelfLoops()
 {
     Edge *e;
     e = edges;
+
     while ( e != (edges + g.m))
     {
         if (e->f == e->s)
@@ -123,8 +123,8 @@ void deleteSelfLoops()
 int readInput(FILE *f)
 {
     int size = 0;
-
     char temp[2000];
+
     while (fgets(temp, sizeof(temp), f) != NULL)
     {
         size++;
@@ -133,11 +133,11 @@ int readInput(FILE *f)
 
     original.edges = malloc(sizeof(Edge)*size*(size-1)/2);
     original.n = size;
-
     edges = malloc(sizeof(Edge)*size*(size-1)/2);
     g.edges = edges;
 
     int charactersRead;
+
     while (fgets(temp, sizeof(temp), f) != NULL)
     {
         Edge tempEdge;
@@ -158,7 +158,6 @@ int readInput(FILE *f)
                     addEdge(&tempEdge);
                 }
             }
-
             start += charactersRead;
         }
     }
