@@ -4,7 +4,7 @@
 
 #define INPUT_FILE "kargerMinCut.txt"
 #define INPUT_TEST_FILE "test.txt"
-#define TEST 0
+#define TEST 1
 
 typedef struct
 {
